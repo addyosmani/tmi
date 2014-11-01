@@ -20,6 +20,8 @@ $ tmi <url>
 ```
 ![](http://i.imgur.com/gkpzhBW.png)
 
+![](http://i.imgur.com/FkOvnx6.png)
+
 Switch between desktop and mobile:
 
 ```sh
@@ -144,6 +146,10 @@ $ tmi <url> --key=<key> --prettyprint=<true> --userIp=<userIp> --locale=<locale>
 ```sh
 $ tmi http://www.html5rocks.com --strategy=mobile
 ```
+
+### Good test URLs
+
+
 
 ## License
 
