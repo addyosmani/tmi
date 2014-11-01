@@ -2,7 +2,7 @@
 
 > TMI (Too Many Images)
 
-Discover your image weight on the web. Find out the image weight in your pages, compare to the HTTPArchive average and discover what images you can optimize further. 
+Discover your image weight on the web. Find out the image weight in your pages, compare to the [HTTPArchive](http://httparchive.org/interesting.php) average and discover what images you can optimize further. 
 
 
 ## Install
@@ -19,8 +19,6 @@ Summary:
 $ tmi <url>
 ```
 ![](http://i.imgur.com/gkpzhBW.png)
-
-![](http://i.imgur.com/FkOvnx6.png)
 
 Switch between desktop and mobile:
 
@@ -149,7 +147,11 @@ $ tmi http://www.html5rocks.com --strategy=mobile
 
 ### Good test URLs
 
-
+* [LG Watch](http://www.lg.com/global/gwatch/index.html)
+* [MySpace homepage](http://myspace.com)
+* [Mercedes Benz](https://www.mercedes-benz.com/)
+* [Apple iMac](http://www.apple.com/imac/)
+* [Cyclemon](http://www.cyclemon.com/)
 
 ## License
 
