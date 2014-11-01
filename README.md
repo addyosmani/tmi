@@ -1,27 +1,124 @@
-> tmi
+# tmi [![Dependency Status](https://david-dm.org/addyosmani/tmi.svg)](https://david-dm.org/addyosmani/tmi) [![devDependency Status](https://david-dm.org/addyosmani/tmi/dev-status.svg)](https://david-dm.org/addyosmani/tmi#info=devDependencies) [![Build Status](https://travis-ci.org/addyosmani/tmi.svg?branch=master)](https://travis-ci.org/addyosmani/tmi)
+
+> TMI (Too Many Images)
+
+Discover your image weight on the web.Find out the image weight in your pages, compare to the HTTPArchive average and discover what images you can optimize further. 
+
+
+## Install
 
 ```sh
-$ tmi http://addyosmani.com
-Your image weight:
-2.18 MB
-Average image weight on the web:
-1.2 MB
-Please shave off at least:
-975.21 kB
-
-Images to optimize:
-
-http://addyosmani.com/blog/wp-content/uploads/2014/04/avatar-2014.jpeg
-Size: 8.4KiB
-Can be improved by 85%
-https://assets.servedby-buysellads.com/p/manage/asset/id/14858
-Size: 1.6KiB
-Can be improved by 8%
-http://addyosmani.com/blog/wp-content/uploads/2013/01/github.png
-Size: 1.1KiB
-Can be improved by 81%
-
-
-This list does not include images which cannot be optimized further.
-You may consider removing those images if possible.
+$ npm install --save tmi
 ```
+
+## Quick start
+
+```sh
+$ tmi <url>
+```
+
+## Preview
+
+![](http://i.imgur.com/cATa4ra.png)
+
+## Usage
+
+This module is modelled on [psi](http://github.com/addyosmani/psi) and follows a very similar API.
+
+When using this module for a production-level build process, registering for an API key from the [Google Developer Console](https://developers.google.com/speed/docs/insights/v1/getting_started#auth) is recommended.
+
+```js
+var tmi = require('tmi');
+
+tmi({
+	// key: '...', optional
+	url: 'http://html5rocks.com',
+	paths: '',           // optional
+	locale: 'en_GB',     // optional
+	strategy: 'mobile',  // optional
+	threshold: 80        // optional
+});
+```
+
+Optionally, a callback is also available with access to the response:
+
+```js
+tmi(options, function (err, data) {
+	console.log(data.score);
+	console.log(data.pageStats);
+});
+```
+
+### Options
+
+#### url
+
+*Required*  
+Type: `string`
+
+URL of the page for which the PageSpeed Insights API should generate results.
+
+#### locale
+
+Type: `string`  
+Default: `en_US`
+
+The locale that results should be generated in (e.g 'en_GB').
+
+#### strategy
+
+Type: `string`  
+Default: `desktop`
+
+The strategy to use when analyzing the page. Valid values are desktop and mobile.
+
+#### threshold
+
+Type: `number`  
+Default: `70`
+
+Threshold score that is needed to pass the pagespeed test
+
+#### paths
+
+Type: `array`
+
+An array of URL paths that are appended to the URL
+
+#### key
+
+Type: `string`  
+Default: `nokey`
+
+[Google API Key](https://code.google.com/apis/console/)
+
+Unless Specified defaults to use the free tier on PageSpeed Insights. Good for getting a feel for how well this tool works for you.
+
+
+## CLI support
+
+You will probably want to globally install tmi if using as a CLI. This can be done as follows:
+
+```sh
+$ npm install --global tmi
+```
+
+You can then casually use it with your key:
+
+```sh
+$ tmi http://www.google.com --key 'YOUR_KEY_GOES_HERE'
+```
+
+Similar to gpagespeed, the following optional flags are also supported:
+
+```sh
+$ tmi <url> --key=<key> --prettyprint=<true> --userIp=<userIp> --locale=<locale> --strategy=<desktop|mobile>
+```
+
+```sh
+$ tmi http://www.html5rocks.com --strategy=mobile
+```
+
+## License
+
+Apache 2.
