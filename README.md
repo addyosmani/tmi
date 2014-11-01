@@ -20,14 +20,6 @@ $ tmi <url>
 ```
 ![](http://i.imgur.com/gkpzhBW.png)
 
-Detailed summary with URLs you can optimize:
-
-```sh
-$ tmi <url> -r (or tmi <url> --verbose)
-```
-
-![](http://i.imgur.com/g1N9y0o.png)
-
 Switch between desktop and mobile:
 
 ```sh
@@ -35,6 +27,14 @@ $ tmi <url> --strategy=mobile
 ```
 
 ![](http://i.imgur.com/iwp1cHU.png)
+
+Detailed summary with URLs you can optimize:
+
+```sh
+$ tmi <url> --verbose
+```
+
+![](http://i.imgur.com/g1N9y0o.png)
 
 
 ## Usage
