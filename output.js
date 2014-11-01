@@ -9,6 +9,7 @@ var averageImagesPerPage = 1200000;
 exports.init = function() {
     var threshold = 70;
     var exports = {};
+    var verbose = '';
 
     var generateScore = function(url, strategy, score) {
         var color = utils.scoreColor(score);
@@ -59,6 +60,7 @@ exports.init = function() {
 
         done = done || function() {};
         threshold = parameters.threshold || threshold;
+        verbose = parameters.verbose;
 
         var yourImageWeight = parseInt(response.pageStats.imageResponseBytes, 10);
         var unoptimizedImages = response.formattedResults.ruleResults.OptimizeImages.urlBlocks;
@@ -68,24 +70,26 @@ exports.init = function() {
         if (yourImageWeight > averageImagesPerPage) {
             shave = chalk.cyan('Please shave off at least:\n') + prettyBytes(yourImageWeight - averageImagesPerPage);
 
-            if (unoptimizedImages[1] !== undefined) {
-                unoptimizedImages[1].urls.forEach(function(url) {
-                    url.result.args.forEach(function(x) {
-                        var result = "";
-                        switch (x.type) {
-                            case 'URL':
-                                result += chalk.green(x.value);
-                                break;
-                            case 'BYTES':
-                                result += 'Size: ' + chalk.red(x.value);
-                                break;
-                            case 'PERCENTAGE':
-                                result += 'Can be improved by ' + chalk.yellow(x.value);
-                                break;
-                        }
-                        imagesToOptimize += result + '\n'; 
+            if (verbose) {
+                if (unoptimizedImages[1] !== undefined) {
+                    unoptimizedImages[1].urls.forEach(function(url) {
+                        url.result.args.forEach(function(x) {
+                            var result = "";
+                            switch (x.type) {
+                                case 'URL':
+                                    result += chalk.green(x.value);
+                                    break;
+                                case 'BYTES':
+                                    result += 'Size: ' + chalk.red(x.value);
+                                    break;
+                                case 'PERCENTAGE':
+                                    result += 'Can be improved by ' + chalk.yellow(x.value);
+                                    break;
+                            }
+                            imagesToOptimize += result + '\n';
+                        });
                     });
-                });
+                }
             }
         }
 
@@ -93,7 +97,7 @@ exports.init = function() {
             chalk.cyan('Your image weight:\n') + prettyBytes(yourImageWeight),
             chalk.cyan('Average image weight on the web:\n') + prettyBytes(averageImagesPerPage),
             shave,
-            imagesToOptimize.length? (chalk.underline('\nImages to optimize:\n') + imagesToOptimize + chalk.cyan('\nThis list does not include images which cannot be optimized further.\nYou may consider removing those images if possible.')) : '', 
+            imagesToOptimize.length ? (chalk.underline('\nImages to optimize:\n') + imagesToOptimize + chalk.cyan('\nThis list does not include images which cannot be optimized further.\nYou may consider removing those images if possible.')) : '',
         ].join('\n'));
 
         if (response.score < threshold) {

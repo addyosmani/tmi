@@ -15,6 +15,7 @@ module.exports = function (opts, cb) {
   cb = cb || function () {};
   opts.strategy = opts.strategy || 'desktop';
   opts.nokey = opts.key === undefined;
+  opts.verbose = opts.verbose || false;
 
   pagespeed(opts, function (err, data) {
     if (err) {

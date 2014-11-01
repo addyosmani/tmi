@@ -13,7 +13,9 @@ function printHelp() {
   console.log(pkg.description);
   console.log('');
   console.log('Usage:');
+  console.log('  $ psi <url>');
   console.log('  $ psi <url> --key=<key>');
+  console.log('  $ psi <url> --verbose');
   console.log('');
   console.log('Optional, supply other arguments.');
   console.log('See https://developers.google.com/speed/docs/insights/v1/getting_started for description');
@@ -45,6 +47,10 @@ if(argv.url){
 
 if(argv.key){
   opts.key = argv.key;
+}
+
+if (process.argv.indexOf('-r') !== -1 || process.argv.indexOf('--verbose') !== -1) {
+  opts.verbose = true;
 }
 
 if(argv.callback){

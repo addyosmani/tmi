@@ -13,13 +13,21 @@ $ npm install --save tmi
 
 ## Quick start
 
+Summary:
+
 ```sh
 $ tmi <url>
 ```
+![](http://i.imgur.com/gkpzhBW.png)
 
-## Preview
+Detailed summary with URLs you can optimize:
 
-![](http://i.imgur.com/cATa4ra.png)
+```sh
+$ tmi <url> -r (or tmi <url> --verbose)
+```
+
+![](http://i.imgur.com/g1N9y0o.png)
+
 
 ## Usage
 
@@ -103,10 +111,20 @@ You will probably want to globally install tmi if using as a CLI. This can be do
 $ npm install --global tmi
 ```
 
-You can then casually use it with your key:
+You can then casually use it with or without your key:
+
+```sh
+$ tmi http://www.google.com'
+```
 
 ```sh
 $ tmi http://www.google.com --key 'YOUR_KEY_GOES_HERE'
+```
+
+Or ask for a more detailed report including image URLs that can be optimized:
+
+```sh
+$ tmi http://www.google.com --verbose'
 ```
 
 Similar to gpagespeed, the following optional flags are also supported:
