@@ -13,13 +13,13 @@ function printHelp() {
   console.log(pkg.description);
   console.log('');
   console.log('Usage:');
-  console.log('  $ psi <url>');
-  console.log('  $ psi <url> --key=<key>');
-  console.log('  $ psi <url> --verbose');
+  console.log('  $ tmi <url>');
+  console.log('  $ tmi <url> --key=<key>');
+  console.log('  $ tmi <url> --verbose');
   console.log('');
   console.log('Optional, supply other arguments.');
   console.log('See https://developers.google.com/speed/docs/insights/v1/getting_started for description');
-  console.log('  $ psi <url> --key=<key> --prettyprint=<true> --userIp=<userIp> --locale=<locale> --strategy=<desktop|mobile>');
+  console.log('  $ tmi <url> --key=<key> --prettyprint=<true> --userIp=<userIp> --locale=<locale> --strategy=<desktop|mobile>');
 }
 
 if (!query || process.argv.indexOf('-h') !== -1 || process.argv.indexOf('--help') !== -1) {
