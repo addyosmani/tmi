@@ -153,6 +153,12 @@ $ tmi http://www.html5rocks.com --strategy=mobile
 * [Apple iMac](http://www.apple.com/imac/)
 * [Cyclemon](http://www.cyclemon.com/)
 
+## Local testing
+
+We plan on adding support for testing localhost and local files in the
+very near future. Until then, [ngrok](https://ngrok.com/) should be able
+to help get you mostly there.
+
 ## License
 
 Apache 2.
