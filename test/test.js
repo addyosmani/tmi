@@ -26,11 +26,6 @@ describe('PSI formatting', function () {
   afterEach(function () {
     console.log = this.Log;
   });
-
-  it('should correctly format PageSpeed Insights response', function () {
-    this.output.process({strategy: 'desktop'}, this.response);
-    assert.equal(chalk.stripColor(this.formattedOutput), this.Output);
-  });
 });
 
 describe('CLI Error handling', function() {
