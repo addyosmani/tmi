@@ -122,7 +122,7 @@ $ npm install --global tmi
 You can then casually use it with or without your key:
 
 ```sh
-$ tmi http://www.google.com'
+$ tmi http://www.google.com
 ```
 
 ```sh
@@ -132,7 +132,7 @@ $ tmi http://www.google.com --key 'YOUR_KEY_GOES_HERE'
 Or ask for a more detailed report including image URLs that can be optimized:
 
 ```sh
-$ tmi http://www.google.com --verbose'
+$ tmi http://www.google.com --verbose
 ```
 
 Similar to gpagespeed, the following optional flags are also supported:
