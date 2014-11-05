@@ -62,7 +62,7 @@ exports.init = function() {
         threshold = parameters.threshold || threshold;
         verbose = parameters.verbose;
 
-        var yourImageWeight = parseInt(response.pageStats.imageResponseBytes, 10);
+        var yourImageWeight = parseInt(response.pageStats.imageResponseBytes || 0, 10);
         var unoptimizedImages = response.formattedResults.ruleResults.OptimizeImages.urlBlocks;
         var shave = chalk.cyan("Thanks for keeping the web fast <3");
         var imagesToOptimize = "";
