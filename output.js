@@ -64,8 +64,8 @@ exports.init = function() {
 
         var yourImageWeight = parseInt(response.pageStats.imageResponseBytes || 0, 10);
         var unoptimizedImages = response.formattedResults.ruleResults.OptimizeImages.urlBlocks;
-        var shave = chalk.cyan("Thanks for keeping the web fast <3");
-        var imagesToOptimize = "";
+        var shave = chalk.cyan('Thanks for keeping the web fast <3');
+        var imagesToOptimize = '';
 
         if (yourImageWeight > averageImagesPerPage) {
             shave = chalk.cyan('Please shave off at least:\n') + prettyBytes(yourImageWeight - averageImagesPerPage);
@@ -74,7 +74,7 @@ exports.init = function() {
                 if (unoptimizedImages[1] !== undefined) {
                     unoptimizedImages[1].urls.forEach(function(url) {
                         url.result.args.forEach(function(x) {
-                            var result = "";
+                            var result = '';
                             switch (x.type) {
                                 case 'URL':
                                     result += chalk.green(x.value);
@@ -101,7 +101,7 @@ exports.init = function() {
         ].join('\n'));
 
         if (response.score < threshold) {
-            error = new Error("Threshold of " + threshold + " not met with score of " + response.score);
+            error = new Error('Threshold of ' + threshold + ' not met with score of ' + response.score);
         }
 
         return done(error);

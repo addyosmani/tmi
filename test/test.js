@@ -2,7 +2,6 @@
 'use strict';
 
 var assert    = require('assert');
-var chalk     = require('chalk');
 var insights  = require('../index');
 var Output    = require('../output');
 var fs        = require('fs');
