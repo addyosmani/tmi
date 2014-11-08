@@ -41,6 +41,7 @@
     "pretty-bytes": "^1.0.1"
   },
   "devDependencies": {
+    "csv-parse": "0.0.6",
     "mocha": "^2.0.1"
   }
 }

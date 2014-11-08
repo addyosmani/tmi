@@ -3,13 +3,24 @@
 var prettyBytes = require('pretty-bytes');
 var chalk = require('chalk');
 var utils = require('./lib/utils');
+var csvparse = require('csv-parse');
+var fs = require('fs');
 
-var averageImagesPerPage = 1200000;
+
+var averageImagesDesktop = 0; //1200000;
+var averageImagesMobile = 0;
 
 exports.init = function() {
     var threshold = 70;
     var exports = {};
     var verbose = '';
+
+var parser = csvparse({delimiter: ';'}, function(err, data){
+  averageImagesDesktop = parseInt(data[1][0].split(',')[1], 10) * 1000;
+  averageImagesMobile = parseInt(data[2][0].split(',')[1], 10) * 1000;
+});
+fs.createReadStream(__dirname+'/data/bigquery.csv').pipe(parser);
+
 
     var generateScore = function(url, strategy, score) {
         var color = utils.scoreColor(score);
@@ -67,8 +78,8 @@ exports.init = function() {
         var shave = chalk.cyan('Thanks for keeping the web fast <3');
         var imagesToOptimize = '';
 
-        if (yourImageWeight > averageImagesPerPage) {
-            shave = chalk.cyan('Please shave off at least:\n') + prettyBytes(yourImageWeight - averageImagesPerPage);
+        if (yourImageWeight > averageImagesDesktop) {
+            shave = chalk.cyan('Please shave off at least:\n') + prettyBytes(yourImageWeight - averageImagesDesktop);
 
             if (verbose) {
                 if (unoptimizedImages[1] !== undefined) {
@@ -95,7 +106,7 @@ exports.init = function() {
 
         logger([
             chalk.cyan('Your image weight:\n') + prettyBytes(yourImageWeight),
-            chalk.cyan('Average image weight on the web:\n') + prettyBytes(averageImagesPerPage),
+            chalk.cyan('Median image weight on the web:\n') + prettyBytes(averageImagesDesktop) + chalk.yellow(' Desktop\n') + prettyBytes(averageImagesMobile) + chalk.yellow(' Mobile'),
             shave,
             imagesToOptimize.length ? (chalk.underline('\nImages to optimize:\n') + imagesToOptimize + chalk.cyan('\nThis list does not include images which cannot be optimized further.\nYou may consider removing those images if possible.')) : '',
         ].join('\n'));
