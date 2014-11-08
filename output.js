@@ -7,7 +7,7 @@ var csvparse = require('csv-parse');
 var fs = require('fs');
 
 
-var averageImagesDesktop = 0; //1200000;
+var averageImagesDesktop = 0;
 var averageImagesMobile = 0;
 
 exports.init = function() {
@@ -15,12 +15,12 @@ exports.init = function() {
     var exports = {};
     var verbose = '';
 
-var parser = csvparse({delimiter: ';'}, function(err, data){
-  averageImagesDesktop = parseInt(data[1][0].split(',')[1], 10) * 1000;
-  averageImagesMobile = parseInt(data[2][0].split(',')[1], 10) * 1000;
-});
-fs.createReadStream(__dirname+'/data/bigquery.csv').pipe(parser);
+    var parser = csvparse({delimiter: ';'}, function(err, data) {
+      averageImagesDesktop = parseInt(data[1][0].split(',')[1], 10) * 1000;
+      averageImagesMobile = parseInt(data[2][0].split(',')[1], 10) * 1000;
+    });
 
+    fs.createReadStream(__dirname+'/data/bigquery.csv').pipe(parser);
 
     var generateScore = function(url, strategy, score) {
         var color = utils.scoreColor(score);
