@@ -6,21 +6,41 @@ var utils = require('./lib/utils');
 var csvparse = require('csv-parse');
 var fs = require('fs');
 
-
-var averageImagesDesktop = 0;
-var averageImagesMobile = 0;
-
 exports.init = function() {
     var threshold = 70;
     var exports = {};
     var verbose = '';
+    var titles, desktop, mobile = [];
 
-    var parser = csvparse({delimiter: ';'}, function(err, data) {
-      averageImagesDesktop = parseInt(data[1][0].split(',')[1], 10) * 1000;
-      averageImagesMobile = parseInt(data[2][0].split(',')[1], 10) * 1000;
+    var compareWeight = function(siteImageWeight, percentileImageWeight, percentile) {
+        var diff = (siteImageWeight - parseInt(percentileImageWeight, 10)) * 1000;
+        if (diff > 0) {
+            diff = '+' + prettyBytes(diff);
+        } else {
+            diff = diff * -1; // Force positive
+            diff = '-' + prettyBytes(diff);
+        }
+        return chalk.yellow(diff) + (' compared to a site in ') + chalk.cyan(percentile.replace('p', '') + 'th') + ' percentile';
+    }
+
+    var compareWeights = function(siteImageWeight, sizes, percentiles) {
+        var comparisons = "";
+        siteImageWeight = parseInt(siteImageWeight, 10);
+        for (var i = 2; i < percentiles.length; i++) {
+            comparisons += compareWeight(siteImageWeight, sizes[i], percentiles[i]) + '\n';
+        }
+        return comparisons;
+    }
+
+    var parser = csvparse({
+        delimiter: ';'
+    }, function(err, data) {
+        titles = data[0][0].split(',');
+        desktop = data[1][0].split(',');
+        mobile = data[2][0].split(',');
     });
 
-    fs.createReadStream(__dirname+'/data/bigquery.csv').pipe(parser);
+    fs.createReadStream(__dirname + '/data/bigquery.csv').pipe(parser);
 
     var generateScore = function(url, strategy, score) {
         var color = utils.scoreColor(score);
@@ -77,37 +97,38 @@ exports.init = function() {
         var unoptimizedImages = response.formattedResults.ruleResults.OptimizeImages.urlBlocks;
         var shave = chalk.cyan('Thanks for keeping the web fast <3');
         var imagesToOptimize = '';
+        var desktop_weights = compareWeights(yourImageWeight / 1000, desktop, titles);
+        var mobile_weights = compareWeights(yourImageWeight / 1000, mobile, titles);
 
-        if (yourImageWeight > averageImagesDesktop) {
-            shave = chalk.cyan('Please shave off at least:\n') + prettyBytes(yourImageWeight - averageImagesDesktop);
-
-            if (verbose) {
-                if (unoptimizedImages[1] !== undefined) {
-                    unoptimizedImages[1].urls.forEach(function(url) {
-                        url.result.args.forEach(function(x) {
-                            var result = '';
-                            switch (x.type) {
-                                case 'URL':
-                                    result += chalk.green(x.value);
-                                    break;
-                                case 'BYTES':
-                                    result += 'Size: ' + chalk.red(x.value);
-                                    break;
-                                case 'PERCENTAGE':
-                                    result += 'Can be improved by ' + chalk.yellow(x.value);
-                                    break;
-                            }
-                            imagesToOptimize += result + '\n';
-                        });
+        if (verbose) {
+            if (unoptimizedImages[1] !== undefined) {
+                unoptimizedImages[1].urls.forEach(function(url) {
+                    url.result.args.forEach(function(x) {
+                        var result = '';
+                        switch (x.type) {
+                            case 'URL':
+                                result += chalk.green(x.value);
+                                break;
+                            case 'BYTES':
+                                result += 'Size: ' + chalk.red(x.value);
+                                break;
+                            case 'PERCENTAGE':
+                                result += 'Can be improved by ' + chalk.yellow(x.value);
+                                break;
+                        }
+                        imagesToOptimize += result + '\n';
                     });
-                }
+                });
             }
         }
 
         logger([
-            chalk.cyan('Your image weight:\n') + prettyBytes(yourImageWeight),
-            chalk.cyan('Median image weight on the web:\n') + prettyBytes(averageImagesDesktop) + chalk.yellow(' Desktop\n') + prettyBytes(averageImagesMobile) + chalk.yellow(' Mobile'),
-            shave,
+            chalk.cyan('Your image weight: ') + prettyBytes(yourImageWeight),
+            chalk.cyan('\nOn Desktop you are:'),
+            desktop_weights,
+            chalk.cyan('On Mobile you are:'),
+            mobile_weights,
+            // shave,
             imagesToOptimize.length ? (chalk.underline('\nImages to optimize:\n') + imagesToOptimize + chalk.cyan('\nThis list does not include images which cannot be optimized further.\nYou may consider removing those images if possible.')) : '',
         ].join('\n'));
 
