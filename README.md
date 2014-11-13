@@ -8,7 +8,7 @@ Discover your image weight on the web. Find out the image weight in your pages, 
 ## Install
 
 ```sh
-$ npm install --save tmi
+$ npm install -g tmi
 ```
 
 ## Quick start
