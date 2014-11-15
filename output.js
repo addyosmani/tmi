@@ -6,14 +6,14 @@ var utils = require('./lib/utils');
 var csvparse = require('csv-parse');
 var fs = require('fs');
 
-//TODO: Restore averages support
-
 exports.init = function() {
     var threshold = 70;
     var exports = {};
     var verbose = '';
     var titles, desktop, mobile = [];
     var fasterThanAPercentile =  false;
+    var desktopAverage = 0;
+    var mobileAverage  = 0;
 
     var compareWeight = function(siteImageWeight, percentileImageWeight, percentile) {
         var diff = (siteImageWeight - parseInt(percentileImageWeight, 10)) * 1000;
@@ -24,7 +24,7 @@ exports.init = function() {
             diff = chalk.green('-' + prettyBytes(diff));
             fasterThanAPercentile = true;
         }
-        return diff + (' compared to a site in ') + chalk.pink(percentile.replace('p', '') + 'th') + ' percentile';
+        return diff + (' compared to a site in ') + chalk.yellow(percentile.replace('p', '') + 'th') + ' percentile';
     }
 
     var compareWeights = function(siteImageWeight, sizes, percentiles) {
@@ -42,6 +42,8 @@ exports.init = function() {
         titles = data[0][0].split(',');
         desktop = data[1][0].split(',');
         mobile = data[2][0].split(',');
+        mobileAverage = parseInt(mobile[1], 10);
+        desktopAverage = parseInt(desktop[1], 10);
     });
 
     fs.createReadStream(__dirname + '/data/bigquery.csv').pipe(parser);
@@ -102,6 +104,8 @@ exports.init = function() {
         var imagesToOptimize = '';
         var desktop_weights = compareWeights(yourImageWeight / 1000, desktop, titles);
         var mobile_weights = compareWeights(yourImageWeight / 1000, mobile, titles);
+        var mobileDifference = yourImageWeight - mobileAverage * 1000;
+        var desktopDifference = yourImageWeight - desktopAverage * 1000;
         var shave = chalk.cyan('Thanks for keeping the web fast <3');
 
         if (verbose) {
@@ -128,10 +132,17 @@ exports.init = function() {
 
         logger([
             chalk.cyan('Your image weight: ') + prettyBytes(yourImageWeight),
+            
             chalk.cyan('\nOn Mobile you are:'),
             mobile_weights,
-            chalk.cyan('On Desktop you are:'),
+            // prettyBytes(mobileDifference) + ' compared to the median site',
+            'The median site has ' + prettyBytes(mobileAverage * 1000) + ' of images',
+            
+            chalk.cyan('\nOn Desktop you are:'),
             desktop_weights,
+            'The median site has ' + prettyBytes(desktopAverage * 1000) + ' of images',
+            // prettyBytes(desktopDifference) + ' compared to the median site',
+            
             fasterThanAPercentile ? shave : '',
             imagesToOptimize.length ? (chalk.underline('\nImages to optimize:\n') + imagesToOptimize + chalk.cyan('\nThis list does not include images which cannot be optimized further.\nYou may consider removing those images if possible.')) : '',
         ].join('\n'));
