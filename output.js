@@ -10,13 +10,16 @@ var fs = require('fs');
 
 exports.init = function() {
     var threshold = 70;
-    var indicesOfInterest = [4,7,10]; // 25th, 50th, 75th percentile
+    var indicesOfInterest = [3, 6, 9]; // 25th, 50th, 75th percentile
     var exports = {};
     var verbose = '';
-    var titles, titlesData,desktop, mobile, desktopData, mobileData = [];
-    var fasterThanAPercentile =  false;
+    var titles = [];
+    var desktop = [];
+    var mobile = [];
+    var titlesData, desktopData, mobileData = [];
+    var fasterThanAPercentile = false;
     var desktopAverage = 0;
-    var mobileAverage  = 0;
+    var mobileAverage = 0;
 
     var compareWeight = function(siteImageWeight, percentileImageWeight, percentile) {
         var diff = (siteImageWeight - parseInt(percentileImageWeight, 10)) * 1000;
@@ -28,30 +31,30 @@ exports.init = function() {
             fasterThanAPercentile = true;
         }
         return diff + (' compared to a site in the ') + chalk.yellow(percentile.replace('p', '') + 'th') + ' percentile';
-    }
+    };
 
     var highestPercentile = function(sizeImageWeight, sizes, percentiles) {
 
-        var highestPercentileMatch = -1; 
+        var highestPercentileMatch = -1;
 
-        for(var i=2; i<percentiles.length; i++) {
-            sizes[i] = parseInt(sizes[i], 10);;
+        for (var i = 2; i < percentiles.length; i++) {
+            sizes[i] = parseInt(sizes[i], 10);
             if (sizeImageWeight > sizes[i]) {
                 highestPercentileMatch = i;
             }
         }
 
         return percentiles[highestPercentileMatch];
-    }
+    };
 
     var compareWeights = function(siteImageWeight, sizes, percentiles) {
-        var comparisons = "";
+        var comparisons = '';
         siteImageWeight = parseInt(siteImageWeight, 10);
         for (var i = 0; i < percentiles.length; i++) {
             comparisons += compareWeight(siteImageWeight, sizes[i], percentiles[i]) + '\n';
         }
         return comparisons;
-    }
+    };
 
     var parser = csvparse({
         delimiter: ';'
@@ -63,9 +66,11 @@ exports.init = function() {
         mobileData = data[2][0].split(',');
 
         // Print set
-        desktop = [desktopData[3],desktopData[6],desktopData[9]];
-        mobile = [mobileData[3],mobileData[6],mobileData[9]];
-        titles = [titlesData[3],titlesData[6],titlesData[9]];
+        indicesOfInterest.forEach(function(item) {
+            desktop.push(desktopData[item]);
+            mobile.push(mobileData[item]);
+            titles.push(titlesData[item]);
+        });
 
         // Averages
         mobileAverage = parseInt(mobileData[1], 10);
@@ -75,44 +80,47 @@ exports.init = function() {
 
     fs.createReadStream(__dirname + '/data/bigquery.csv').pipe(parser);
 
-    var generateScore = function(url, strategy, score) {
-        var color = utils.scoreColor(score);
+    /*
+        var generateScore = function(url, strategy, score) {
+            var color = utils.scoreColor(score);
 
-        score = 'Score:     ' + color(score);
-        url = 'URL:       ' + chalk.cyan(url);
-        strategy = 'Strategy:  ' + chalk.cyan(strategy);
+            score = 'Score:     ' + color(score);
+            url = 'URL:       ' + chalk.cyan(url);
+            strategy = 'Strategy:  ' + chalk.cyan(strategy);
 
-        return [url, score, strategy].join('\n') + '\n';
-    };
+            return [url, score, strategy].join('\n') + '\n';
+        };
+    */
+    /*
+        var generateRuleSetResults = function(rulesets) {
+            var result, ruleImpact, title;
+            var _results = [];
 
-    var generateRuleSetResults = function(rulesets) {
-        var result, ruleImpact, title;
-        var _results = [];
+            for (title in rulesets) {
+                result = rulesets[title];
+                ruleImpact = Math.ceil(result.ruleImpact * 100) / 100;
+                _results.push(utils.labelize(title) + chalk.cyan(ruleImpact));
+            }
 
-        for (title in rulesets) {
-            result = rulesets[title];
-            ruleImpact = Math.ceil(result.ruleImpact * 100) / 100;
-            _results.push(utils.labelize(title) + chalk.cyan(ruleImpact));
-        }
+            return _results.join('\n');
+        };
+    */
+    /*
+        var generateStatistics = function(statistics) {
+            var result, title;
+            var _results = [];
 
-        return _results.join('\n');
-    };
+            for (title in statistics) {
+                result = title.indexOf('Bytes') !== -1 ?
+                    prettyBytes(+statistics[title]) :
+                    statistics[title];
 
-    var generateStatistics = function(statistics) {
-        var result, title;
-        var _results = [];
+                _results.push(utils.labelize(title) + chalk.cyan(result));
+            }
 
-        for (title in statistics) {
-            result = title.indexOf('Bytes') !== -1 ?
-                prettyBytes(+statistics[title]) :
-                statistics[title];
-
-            _results.push(utils.labelize(title) + chalk.cyan(result));
-        }
-
-        return _results.join('\n');
-    };
-
+            return _results.join('\n');
+        };
+    */
     exports.threshold = function(limit) {
         threshold = limit;
         return threshold;
@@ -129,10 +137,10 @@ exports.init = function() {
         var yourImageWeight = parseInt(response.pageStats.imageResponseBytes || 0, 10);
         var unoptimizedImages = response.formattedResults.ruleResults.OptimizeImages.urlBlocks;
         var imagesToOptimize = '';
-        var desktop_weights = compareWeights(yourImageWeight / 1000, desktop, titles);
-        var mobile_weights = compareWeights(yourImageWeight / 1000, mobile, titles);
-        var mobileDifference = yourImageWeight - mobileAverage * 1000;
-        var desktopDifference = yourImageWeight - desktopAverage * 1000;
+        var desktopWeights = compareWeights(yourImageWeight / 1000, desktop, titles);
+        var mobileWeights = compareWeights(yourImageWeight / 1000, mobile, titles);
+        // var mobileDifference = yourImageWeight - mobileAverage * 1000;
+        // var desktopDifference = yourImageWeight - desktopAverage * 1000;
         var shave = chalk.cyan('Thanks for keeping the web fast <3');
         var highestPercentileDesktop = highestPercentile(yourImageWeight / 1000, desktopData, titlesData);
         var highestPercentileMobile = highestPercentile(yourImageWeight / 1000, mobileData, titlesData);
@@ -161,15 +169,15 @@ exports.init = function() {
 
         logger([
             chalk.cyan('Your image weight: ') + prettyBytes(yourImageWeight),
-            
+
             chalk.cyan('\nOn Mobile you are:'),
-            mobile_weights,
+            mobileWeights,
             // prettyBytes(mobileDifference) + ' compared to the median site',
             'The median site has ' + prettyBytes(mobileAverage * 1000) + ' of images',
             'You have more image bytes than ' + highestPercentileDesktop.replace('p', '') + '% of sites',
-            
+
             chalk.cyan('\nOn Desktop you are:'),
-            desktop_weights,
+            desktopWeights,
             'The median site has ' + prettyBytes(desktopAverage * 1000) + ' of images',
             // prettyBytes(desktopDifference) + ' compared to the median site',
             'You have more image bytes than ' + highestPercentileMobile.replace('p', '') + '% of sites',
