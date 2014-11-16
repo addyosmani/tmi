@@ -6,11 +6,14 @@ var utils = require('./lib/utils');
 var csvparse = require('csv-parse');
 var fs = require('fs');
 
+
+
 exports.init = function() {
     var threshold = 70;
+    var indicesOfInterest = [4,7,10]; // 25th, 50th, 75th percentile
     var exports = {};
     var verbose = '';
-    var titles, desktop, mobile = [];
+    var titles, titlesData,desktop, mobile, desktopData, mobileData = [];
     var fasterThanAPercentile =  false;
     var desktopAverage = 0;
     var mobileAverage  = 0;
@@ -24,13 +27,27 @@ exports.init = function() {
             diff = chalk.green('-' + prettyBytes(diff));
             fasterThanAPercentile = true;
         }
-        return diff + (' compared to a site in ') + chalk.yellow(percentile.replace('p', '') + 'th') + ' percentile';
+        return diff + (' compared to a site in the ') + chalk.yellow(percentile.replace('p', '') + 'th') + ' percentile';
+    }
+
+    var highestPercentile = function(sizeImageWeight, sizes, percentiles) {
+
+        var highestPercentileMatch = -1; 
+
+        for(var i=2; i<percentiles.length; i++) {
+            sizes[i] = parseInt(sizes[i], 10);;
+            if (sizeImageWeight > sizes[i]) {
+                highestPercentileMatch = i;
+            }
+        }
+
+        return percentiles[highestPercentileMatch];
     }
 
     var compareWeights = function(siteImageWeight, sizes, percentiles) {
         var comparisons = "";
         siteImageWeight = parseInt(siteImageWeight, 10);
-        for (var i = 2; i < percentiles.length; i++) {
+        for (var i = 0; i < percentiles.length; i++) {
             comparisons += compareWeight(siteImageWeight, sizes[i], percentiles[i]) + '\n';
         }
         return comparisons;
@@ -39,11 +56,21 @@ exports.init = function() {
     var parser = csvparse({
         delimiter: ';'
     }, function(err, data) {
-        titles = data[0][0].split(',');
-        desktop = data[1][0].split(',');
-        mobile = data[2][0].split(',');
-        mobileAverage = parseInt(mobile[1], 10);
-        desktopAverage = parseInt(desktop[1], 10);
+
+        // Complete data set
+        titlesData = data[0][0].split(',');
+        desktopData = data[1][0].split(',');
+        mobileData = data[2][0].split(',');
+
+        // Print set
+        desktop = [desktopData[3],desktopData[6],desktopData[9]];
+        mobile = [mobileData[3],mobileData[6],mobileData[9]];
+        titles = [titlesData[3],titlesData[6],titlesData[9]];
+
+        // Averages
+        mobileAverage = parseInt(mobileData[1], 10);
+        desktopAverage = parseInt(desktopData[1], 10);
+
     });
 
     fs.createReadStream(__dirname + '/data/bigquery.csv').pipe(parser);
@@ -107,6 +134,8 @@ exports.init = function() {
         var mobileDifference = yourImageWeight - mobileAverage * 1000;
         var desktopDifference = yourImageWeight - desktopAverage * 1000;
         var shave = chalk.cyan('Thanks for keeping the web fast <3');
+        var highestPercentileDesktop = highestPercentile(yourImageWeight / 1000, desktopData, titlesData);
+        var highestPercentileMobile = highestPercentile(yourImageWeight / 1000, mobileData, titlesData);
 
         if (verbose) {
             if (unoptimizedImages[1] !== undefined) {
@@ -137,12 +166,14 @@ exports.init = function() {
             mobile_weights,
             // prettyBytes(mobileDifference) + ' compared to the median site',
             'The median site has ' + prettyBytes(mobileAverage * 1000) + ' of images',
+            'You have more image bytes than ' + highestPercentileDesktop.replace('p', '') + '% of sites',
             
             chalk.cyan('\nOn Desktop you are:'),
             desktop_weights,
             'The median site has ' + prettyBytes(desktopAverage * 1000) + ' of images',
             // prettyBytes(desktopDifference) + ' compared to the median site',
-            
+            'You have more image bytes than ' + highestPercentileMobile.replace('p', '') + '% of sites',
+
             fasterThanAPercentile ? shave : '',
             imagesToOptimize.length ? (chalk.underline('\nImages to optimize:\n') + imagesToOptimize + chalk.cyan('\nThis list does not include images which cannot be optimized further.\nYou may consider removing those images if possible.')) : '',
         ].join('\n'));
