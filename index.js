@@ -8,6 +8,7 @@
 
 'use strict';
 var pagespeed = require('gpagespeed');
+var prependHttp = require('prepend-http');
 var output = require('./output').init();
 
 module.exports = function (opts, cb) {
@@ -16,6 +17,7 @@ module.exports = function (opts, cb) {
   opts.strategy = opts.strategy || 'desktop';
   opts.nokey = opts.key === undefined;
   opts.verbose = opts.verbose || false;
+  opts.url = prependHttp(opts.url);
 
   pagespeed(opts, function (err, data) {
     if (err) {
