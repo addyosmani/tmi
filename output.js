@@ -12,6 +12,17 @@ function Output() {
 		return new Output;
 	}
 
+	this.constants = {
+		YOUR_IMAGE_WEIGHT     : '\nYour image weight: ',
+		MEDIAN_MOBILE_WEIGHT  : 'Median mobile site image weight: ',
+		MEDIAN_DESKTOP_WEIGHT : 'Median desktop site image weight: ',
+		ON_MOBILE             : '\nOn Mobile:',
+		ON_DESKTOP            : '\nOn Desktop:',
+		MORE_BYTES_THAN       : 'You have more image bytes than',
+		IMAGES_TO_OPTIMISE    : '\nImages to optimize:\n',
+		PERCENTAGE_OF         : '% of sites'
+	};
+
 	/**
 	 * PageSpeed Insights threshold
 	 * @type {number}
@@ -57,7 +68,7 @@ function Output() {
 	 * Average image weights per site, based on BigQuery data
 	 * @type {{desktop: number, mobile: number}}
 	 */
-	this.averages = {};
+	this.medians = {};
 
 	/**
 	 * Message shown when image weight is lower than one of the percentiles
@@ -84,8 +95,8 @@ function Output() {
 			this.outputData.titles.push(this.bigQueryData.titles[item]);
 		}.bind(this));
 
-		this.averages.mobile = parseInt(this.bigQueryData.mobile[1], 10);
-		this.averages.desktop = parseInt(this.bigQueryData.desktop[1], 10);
+		this.medians.mobile = parseInt(this.bigQueryData.mobile[1], 10);
+		this.medians.desktop = parseInt(this.bigQueryData.desktop[1], 10);
 
 	}.bind(this));
 
@@ -198,17 +209,17 @@ Output.prototype.process = function (parameters, response, done) {
 	}
 
 	logger([
-		chalk.cyan('\nYour image weight: ') + prettyBytes(yourImageWeight),
-		chalk.gray('Median mobile site image weight: ') + prettyBytes(this.averages.mobile * 1000),
-		chalk.gray('Median desktop site image weight: ') + prettyBytes(this.averages.desktop * 1000),
-		chalk.cyan('\nOn Mobile:'),
-		chalk.magenta('You have more image bytes than ' + highestPercentileDesktop.replace('p', '') + '% of sites'),
+		chalk.cyan(this.constants.YOUR_IMAGE_WEIGHT) + prettyBytes(yourImageWeight),
+		chalk.gray(this.constants.MEDIAN_MOBILE_WEIGHT) + prettyBytes(this.medians.mobile * 1000),
+		chalk.gray(this.constants.MEDIAN_DESKTOP_WEIGHT) + prettyBytes(this.medians.desktop * 1000),
+		chalk.cyan(this.constants.ON_MOBILE),
+		chalk.magenta(this.constants.MORE_BYTES_THAN + highestPercentileDesktop.replace('p', '') + this.constants.PERCENTAGE_OF),
 		mobileWeights,
-		chalk.cyan('\nOn Desktop:'),
-		chalk.magenta('You have more image bytes than ' + highestPercentileMobile.replace('p', '') + '% of sites'),
+		chalk.cyan(this.constants.ON_DESKTOP),
+		chalk.magenta(this.constants.MORE_BYTES_THAN + highestPercentileMobile.replace('p', '') + this.constants.PERCENTAGE_OF),
 		desktopWeights,
 		this.fasterThanAPercentile ? this.keepingWebFast: '',
-		imagesToOptimize.length ? (chalk.underline('\nImages to optimize:\n') + imagesToOptimize + chalk.cyan('\nThis list does not include images which cannot be optimized further.\nYou may consider removing those images if possible.')) : '',
+		imagesToOptimize.length ? (chalk.underline(this.constants.IMAGES_TO_OPTIMISE) + imagesToOptimize + chalk.cyan('\nThis list does not include images which cannot be optimized further.\nYou may consider removing those images if possible.')) : '',
 	].join('\n'));
 
 	if (response.score < this.threshold) {
