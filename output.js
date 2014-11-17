@@ -1,10 +1,10 @@
 'use strict';
 
 var prettyBytes = require('pretty-bytes');
-var chalk = require('chalk');
-var utils = require('./lib/utils');
-var csvparse = require('csv-parse');
-var fs = require('fs');
+var chalk       = require('chalk');
+var utils       = require('./lib/utils');
+var csvparse    = require('csv-parse');
+var fs          = require('fs');
 
 function Output() {
 
@@ -18,7 +18,7 @@ function Output() {
 		MEDIAN_DESKTOP_WEIGHT : 'Median desktop site image weight: ',
 		ON_MOBILE             : '\nOn Mobile:',
 		ON_DESKTOP            : '\nOn Desktop:',
-		MORE_BYTES_THAN       : 'You have more image bytes than',
+		MORE_BYTES_THAN       : 'You have more image bytes than ',
 		IMAGES_TO_OPTIMISE    : '\nImages to optimize:\n',
 		PERCENTAGE_OF         : '% of sites'
 	};
