@@ -2,7 +2,7 @@
 
 > TMI (Too Many Images)
 
-Discover your image weight on the web. Find out the image weight in your pages, compare to the [HTTPArchive](http://httparchive.org/interesting.php) average and discover what images you can optimize further. 
+Discover your image weight on the web. Find out the image weight in your pages, compare to the BigQuery medians and discover what images you can optimize further. 
 
 
 ## Install

@@ -8,24 +8,26 @@
 
 'use strict';
 var pagespeed = require('gpagespeed');
-var output = require('./output').init();
+var output = require('./output');
 
 module.exports = function (opts, cb) {
-  opts = opts || {};
-  cb = cb || function () {};
-  opts.strategy = opts.strategy || 'desktop';
-  opts.nokey = opts.key === undefined;
-  opts.verbose = opts.verbose || false;
+	opts = opts || {};
+	cb = cb || function () {
+	};
+	opts.strategy = opts.strategy || 'desktop';
+	opts.nokey = opts.key === undefined;
+	opts.verbose = opts.verbose || false;
+	var Output = new output();
 
-  pagespeed(opts, function (err, data) {
-    if (err) {
-      cb(err);
-      return;
-    }
+	pagespeed(opts, function (err, data) {
+		if (err) {
+			cb(err);
+			return;
+		}
 
-    var response = data;
-    output.process(opts, response, function(processErr) {
-      cb(processErr || err, response);
-    });
-  });
+		var response = data;
+		Output.process(opts, response, function (processErr) {
+			cb(processErr || err, response);
+		});
+	});
 };
