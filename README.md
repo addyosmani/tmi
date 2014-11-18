@@ -134,6 +134,12 @@ $ tmi http://www.google.com
 $ tmi http://www.google.com --key 'YOUR_KEY_GOES_HERE'
 ```
 
+With or without http:// for URLs:
+
+```sh
+$ tmi chrome.com
+```
+
 Or ask for a more detailed report including image URLs that can be optimized:
 
 ```sh
