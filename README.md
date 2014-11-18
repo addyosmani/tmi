@@ -18,15 +18,20 @@ Summary:
 ```sh
 $ tmi <url>
 ```
-![](http://i.imgur.com/gkpzhBW.png)
 
-Switch between desktop and mobile:
+Examples:
+
+![](http://i.imgur.com/zY9lPNW.jpeg)
+
+![](http://i.imgur.com/n7Pg4rI.jpeg)
+
+Switch between desktop and mobile strategies:
 
 ```sh
 $ tmi <url> --strategy=mobile
 ```
 
-![](http://i.imgur.com/iwp1cHU.png)
+![](http://i.imgur.com/BofpZJo.jpeg)
 
 Detailed summary with URLs you can optimize:
 
@@ -34,7 +39,7 @@ Detailed summary with URLs you can optimize:
 $ tmi <url> --verbose
 ```
 
-![](http://i.imgur.com/g1N9y0o.png)
+![](http://i.imgur.com/lFFOdhX.jpeg)
 
 
 ## Usage
