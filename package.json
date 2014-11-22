@@ -39,13 +39,13 @@
   ],
   "dependencies": {
     "chalk": "^0.5.1",
+    "csv-parse": "0.0.6",
     "gpagespeed": "0.0.8",
     "minimist": "^1.1.0",
-    "pretty-bytes": "^1.0.1"
+    "pretty-bytes": "^1.0.1",
+    "prepend-http": "^1.0.0"
   },
   "devDependencies": {
-    "csv-parse": "0.0.6",
-    "mocha": "^2.0.1",
-    "prepend-http": "^1.0.0"
+    "mocha": "^2.0.1"
   }
 }
