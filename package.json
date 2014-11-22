@@ -1,6 +1,6 @@
 {
   "name": "tmi",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "main": "index.js",
   "description": "Discover your image weight on the web",
   "homepage": "http://github.com/addyosmani/tmi",
