@@ -5,6 +5,7 @@ var chalk       = require('chalk');
 var utils       = require('./lib/utils');
 var csvparse    = require('csv-parse');
 var fs          = require('fs');
+var path        = require('path');
 
 function Output() {
 
@@ -100,7 +101,7 @@ function Output() {
 
 	}.bind(this));
 
-	fs.createReadStream(__dirname + '/data/bigquery.csv').pipe(parser);
+	fs.createReadStream(path.resolve(__dirname + '/data/bigquery.csv')).pipe(parser);
 };
 
 

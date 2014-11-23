@@ -28,7 +28,8 @@
     "index.js",
     "output.js",
     "bin/cli.js",
-    "lib/utils.js"
+    "lib/utils.js",
+    "data/bigquery.csv"
   ],
   "keywords": [
     "pagespeed",
