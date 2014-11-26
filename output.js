@@ -10,7 +10,7 @@ var path        = require('path');
 function Output() {
 
 	if (!(this instanceof Output)) {
-		return new Output;
+		return Output;
 	}
 
 	this.constants = {
