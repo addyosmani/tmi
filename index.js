@@ -13,8 +13,7 @@ var output = require('./output');
 
 module.exports = function (opts, cb) {
 	opts = opts || {};
-	cb = cb || function () {
-	};
+	cb = cb || {};
 	opts.strategy = opts.strategy || 'desktop';
 	opts.nokey = opts.key === undefined;
 	opts.verbose = opts.verbose || false;
