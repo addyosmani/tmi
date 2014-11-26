@@ -214,14 +214,20 @@ Output.prototype.process = function (parameters, response, done) {
 		chalk.gray(this.constants.MEDIAN_MOBILE_WEIGHT) + prettyBytes(this.medians.mobile * 1000),
 		chalk.gray(this.constants.MEDIAN_DESKTOP_WEIGHT) + prettyBytes(this.medians.desktop * 1000),
 		chalk.cyan(this.constants.ON_MOBILE),
-		chalk.magenta(this.constants.MORE_BYTES_THAN + highestPercentileDesktop.replace('p', '') + this.constants.PERCENTAGE_OF),
+		// chalk.magenta(this.constants.MORE_BYTES_THAN + highestPercentileDesktop.replace('p', '') + this.constants.PERCENTAGE_OF),
 		mobileWeights,
 		chalk.cyan(this.constants.ON_DESKTOP),
-		chalk.magenta(this.constants.MORE_BYTES_THAN + highestPercentileMobile.replace('p', '') + this.constants.PERCENTAGE_OF),
-		desktopWeights,
-		this.fasterThanAPercentile ? this.keepingWebFast: '',
-		imagesToOptimize.length ? (chalk.underline(this.constants.IMAGES_TO_OPTIMISE) + imagesToOptimize + chalk.cyan('\nThis list does not include images which cannot be optimized further.\nYou may consider removing those images if possible.')) : '',
+		// chalk.magenta(this.constants.MORE_BYTES_THAN + highestPercentileMobile.replace('p', '') + this.constants.PERCENTAGE_OF),
+		desktopWeights
 	].join('\n'));
+
+	if (this.fasterThanAPercentile) {
+		logger(this.keepingWebFast);
+	}
+
+	if (imagesToOptimize.length) {
+		logger(chalk.underline(this.constants.IMAGES_TO_OPTIMISE) + imagesToOptimize + chalk.cyan('\nThis list does not include images which cannot be optimized further.\nYou may consider removing those images if possible.'));
+	}
 
 	if (response.score < this.threshold) {
 		error = new Error('Threshold of ' + this.threshold + ' not met with score of ' + response.score);
