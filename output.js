@@ -102,7 +102,7 @@ function Output() {
 	}.bind(this));
 
 	fs.createReadStream(path.resolve(__dirname + '/data/bigquery.csv')).pipe(parser);
-};
+}
 
 
 /**
