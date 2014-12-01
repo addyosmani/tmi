@@ -10,7 +10,7 @@ var path        = require('path');
 function Output() {
 
 	if (!(this instanceof Output)) {
-		return new Output;
+		return Output;
 	}
 
 	this.constants = {
@@ -102,7 +102,7 @@ function Output() {
 	}.bind(this));
 
 	fs.createReadStream(path.resolve(__dirname + '/data/bigquery.csv')).pipe(parser);
-};
+}
 
 
 /**
@@ -214,11 +214,9 @@ Output.prototype.process = function (parameters, response, done) {
 		chalk.gray(this.constants.MEDIAN_MOBILE_WEIGHT) + prettyBytes(this.medians.mobile * 1000),
 		chalk.gray(this.constants.MEDIAN_DESKTOP_WEIGHT) + prettyBytes(this.medians.desktop * 1000),
 		chalk.cyan(this.constants.ON_MOBILE),
-		// chalk.magenta(this.constants.MORE_BYTES_THAN + highestPercentileDesktop.replace('p', '') + this.constants.PERCENTAGE_OF),
-		mobileWeights,
+		// chalk.magenta(this.constants.MORE_BYTES_THAN + highestPercentileDesktop.replace('p', '') + this.constants.PERCENTAGE_OF),mobileWeights,
 		chalk.cyan(this.constants.ON_DESKTOP),
-		// chalk.magenta(this.constants.MORE_BYTES_THAN + highestPercentileMobile.replace('p', '') + this.constants.PERCENTAGE_OF),
-		desktopWeights
+		// chalk.magenta(this.constants.MORE_BYTES_THAN + highestPercentileMobile.replace('p', '') + this.constants.PERCENTAGE_OF),desktopWeights
 	].join('\n'));
 
 	if (this.fasterThanAPercentile) {

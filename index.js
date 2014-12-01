@@ -13,9 +13,9 @@ var output = require('./output');
 
 module.exports = function (opts, cb) {
 	opts = opts || {};
-	cb = cb || function () {
-	};
+	cb = cb || {};
 	opts.strategy = opts.strategy || 'desktop';
+	opts.strategy = opts.strategy || 'mobile';
 	opts.nokey = opts.key === undefined;
 	opts.verbose = opts.verbose || false;
 	opts.url = prependHttp(opts.url);
