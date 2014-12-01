@@ -2,7 +2,7 @@
 
 > TMI (Too Many Images)
 
-Discover your image weight on the web. Find out the image weight in your pages, compare to the BigQuery medians and discover what images you can optimize further. 
+Discover your image weight on the web. Find out the image weight in your pages, compare to the BigQuery quantiles and discover what images you can optimize further. 
 
 
 ## Install
@@ -21,9 +21,9 @@ $ tmi <url>
 
 Examples:
 
-![](http://i.imgur.com/zY9lPNW.jpeg)
+![](http://i.imgur.com/v9kMjQS.png)
 
-![](http://i.imgur.com/n7Pg4rI.jpeg)
+![](http://i.imgur.com/CglUZ8N.png)
 
 Switch between desktop and mobile strategies:
 
@@ -31,7 +31,7 @@ Switch between desktop and mobile strategies:
 $ tmi <url> --strategy=mobile
 ```
 
-![](http://i.imgur.com/BofpZJo.jpeg)
+![](http://i.imgur.com/DEI2wWG.png)
 
 Detailed summary with URLs you can optimize:
 
@@ -39,7 +39,7 @@ Detailed summary with URLs you can optimize:
 $ tmi <url> --verbose
 ```
 
-![](http://i.imgur.com/lFFOdhX.jpeg)
+![](http://i.imgur.com/Z3K6kIN.png)
 
 
 ## Usage
