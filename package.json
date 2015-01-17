@@ -1,52 +1,54 @@
 {
   "name": "tmi",
   "version": "0.2.2",
-  "main": "index.js",
   "description": "Discover your image weight on the web",
-  "homepage": "http://github.com/addyosmani/tmi",
-  "bugs": "https://github.com/addyosmani/tmi/issues",
   "author": {
     "name": "Addy Osmani",
     "email": "addyosmani@gmail.com",
     "url": "addyosmani.com"
   },
   "bin": {
-    "tmi": "./bin/cli.js"
+    "tmi": "cli.js"
   },
   "engines": {
     "node": ">=0.10.0"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/addyosmani/tmi"
-  },
-  "license": "Apache-2",
+  "repository": "addyosmani/tmi",
+  "license": "Apache-2.0",
   "scripts": {
-    "test": "mocha test"
+    "test": "mocha"
   },
   "files": [
     "index.js",
-    "output.js",
-    "bin/cli.js",
-    "lib/utils.js",
+    "cli.js",
     "data/bigquery.csv"
   ],
   "keywords": [
-    "pagespeed",
+    "cli-app",
+    "cli",
+    "bin",
+    "image",
     "images",
     "weight",
     "image-weight",
-    "size"
+    "size",
+    "pagespeed",
+    "insights",
+    "speed",
+    "page",
+    "website",
+    "measure",
+    "optimize"
   ],
   "dependencies": {
     "chalk": "^0.5.1",
-    "csv-parse": "0.0.6",
-    "gpagespeed": "0.0.8",
-    "minimist": "^1.1.0",
+    "log-symbols": "^1.0.1",
+    "meow": "^2.1.0",
     "pretty-bytes": "^1.0.1",
-    "prepend-http": "^1.0.0"
+    "psi": "^1.0.3",
+    "update-notifier": "^0.3.0"
   },
   "devDependencies": {
-    "mocha": "^2.0.1"
+    "mocha": "*"
   }
 }
