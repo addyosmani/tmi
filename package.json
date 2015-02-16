@@ -44,7 +44,7 @@
   "dependencies": {
     "chalk": "^0.5.1",
     "log-symbols": "^1.0.1",
-    "meow": "^2.1.0",
+    "meow": "^3.0.0",
     "pretty-bytes": "^1.0.1",
     "psi": "^1.0.3",
     "update-notifier": "^0.3.0"
