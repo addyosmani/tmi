@@ -47,7 +47,7 @@
     "meow": "^3.0.0",
     "pretty-bytes": "^1.0.1",
     "psi": "^1.0.3",
-    "update-notifier": "^0.3.0"
+    "update-notifier": "^0.5.0"
   },
   "devDependencies": {
     "mocha": "*"
