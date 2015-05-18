@@ -7,9 +7,7 @@
     "email": "addyosmani@gmail.com",
     "url": "addyosmani.com"
   },
-  "bin": {
-    "tmi": "cli.js"
-  },
+  "bin": "cli.js",
   "preferGlobal": true,
   "engines": {
     "node": ">=0.10.0"
