@@ -19,7 +19,7 @@ var cli = meow({
 		'  --strategy     Strategy to use when analyzing the page: mobile|desktop',
 		'  --locale       Locale results should be generated in.',
 		'  --threshold    Threshold score to pass the PageSpeed test.'
-	].join('\n')
+	]
 });
 
 updateNotifier({pkg: cli.pkg}).notify();
