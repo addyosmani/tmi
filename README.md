@@ -43,7 +43,7 @@ Verbose mode will show you a detailed summary of which images needs improving.
 
 ## Good test URLs
 
-* [LG Watch](http://www.lg.com/global/gwatch/index.html)
+* [LG Watch](http://www.lg.com/us/smart-watches)
 * [MySpace homepage](http://myspace.com)
 * [Mercedes Benz](https://www.mercedes-benz.com/)
 * [Apple iMac](http://www.apple.com/imac/)
