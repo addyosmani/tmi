@@ -1,19 +1,19 @@
-/*global describe, beforeEach, afterEach, it */
+/* eslint-env mocha */
 'use strict';
-var assert = require('assert');
-var chalk = require('chalk');
-var response = require('./fixtures/response');
-var tmi = require('../');
+const assert = require('assert');
+const chalk = require('chalk');
+const tmi = require('..');
+const response = require('./fixtures/response');
 
-describe('Formatting', function () {
+describe('Formatting', () => {
 	beforeEach(function () {
-	this.log = console.log;
-	this.formattedOutput = '';
+		this.log = console.log;
+		this.formattedOutput = '';
 
-	console.log = function (content) {
-		this.formattedOutput += content + '\n';
-		this.log(content);
-		}.bind(this);
+		console.log = content => {
+			this.formattedOutput += content + '\n';
+			this.log(content);
+		};
 	});
 
 	afterEach(function () {

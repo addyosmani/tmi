@@ -2,20 +2,19 @@
   "name": "tmi",
   "version": "1.0.3",
   "description": "Discover your image weight on the web",
+  "license": "Apache-2.0",
+  "repository": "addyosmani/tmi",
   "author": {
     "name": "Addy Osmani",
     "email": "addyosmani@gmail.com",
     "url": "addyosmani.com"
   },
   "bin": "cli.js",
-  "preferGlobal": true,
   "engines": {
-    "node": ">=0.10.0"
+    "node": ">=4"
   },
-  "repository": "addyosmani/tmi",
-  "license": "Apache-2.0",
   "scripts": {
-    "test": "mocha"
+    "test": "xo && mocha"
   },
   "files": [
     "index.js",
@@ -25,7 +24,6 @@
   "keywords": [
     "cli-app",
     "cli",
-    "bin",
     "image",
     "images",
     "weight",
@@ -43,11 +41,12 @@
     "chalk": "^1.0.0",
     "log-symbols": "^1.0.1",
     "meow": "^3.3.0",
-    "pretty-bytes": "^1.0.1",
-    "psi": "^1.0.3",
-    "update-notifier": "^0.5.0"
+    "pretty-bytes": "^4.0.2",
+    "psi": "^3.0.0",
+    "update-notifier": "^2.0.0"
   },
   "devDependencies": {
-    "mocha": "*"
+    "mocha": "^3.2.0",
+    "xo": "^0.17.0"
   }
 }

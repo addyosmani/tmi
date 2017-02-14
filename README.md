@@ -2,7 +2,7 @@
 
 > Discover your image weight on the web
 
-![](screenshot.png)
+<img src="screenshot.png" width="547">
 
 Find out the image weight in your pages, compare to the BigQuery quantiles and discover what images you can optimize further.
 
@@ -20,17 +20,17 @@ $ npm install --global tmi
 $ tmi --help
 
   Usage
-    tmi <url> [options]
-
-  Example
-    tmi todomvc.com --strategy=desktop
+    $ tmi <url> [options]
 
   Options
-    --verbose      Detailed summary.
-    --key          Google API Key. By default the free tier is used.
-    --strategy     Strategy to use when analyzing the page: mobile|desktop
-    --locale       Locale results should be generated in.
-    --threshold    Threshold score to pass the PageSpeed test.
+    --verbose    Detailed summary
+    --key        Google API Key. By default the free tier is used
+    --strategy   Strategy to use when analyzing the page: mobile|desktop
+    --locale     Locale results should be generated in
+    --threshold  Threshold score to pass the PageSpeed test
+
+  Example
+    $ tmi todomvc.com --strategy=desktop
 ```
 
 
@@ -38,7 +38,7 @@ $ tmi --help
 
 Verbose mode will show you a detailed summary of which images needs improving.
 
-![](screenshot-verbose.png)
+<img src="screenshot-verbose.png" width="756">
 
 
 ## Good test URLs
@@ -62,5 +62,5 @@ See [`psi`](https://github.com/addyosmani/psi) if you need a programmatic API fo
 
 ## License
 
-Apache-2.0  
+Apache-2.0
 Copyright 2015 Google Inc
