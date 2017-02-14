@@ -144,11 +144,12 @@ class Output {
 		const unoptimizedImages = res.formattedResults.ruleResults.OptimizeImages.urlBlocks;
 		const desktopWeights = this.compareWeights(yourImageWeight / 1000, this.outputData.desktop, this.outputData.titles);
 		const mobileWeights = this.compareWeights(yourImageWeight / 1000, this.outputData.mobile, this.outputData.titles);
+		const unoptimizedUrls = unoptimizedImages[0] && unoptimizedImages[0].urls;
 		let imagesToOptimize = '';
 
-		if (opts.verbose && unoptimizedImages[1] !== undefined) {
-			unoptimizedImages[1].urls.forEach(url => {
-				url.result.args.forEach(x => {
+		if (opts.verbose && unoptimizedUrls && unoptimizedUrls.length > 0) {
+			for (const url of unoptimizedUrls) {
+				for (const x of url.result.args) {
 					let result = '';
 
 					switch (x.type) {
@@ -166,8 +167,8 @@ class Output {
 					}
 
 					imagesToOptimize += result + '\n';
-				});
-			});
+				}
+			}
 		}
 
 		console.log([
